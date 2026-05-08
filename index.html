@@ -197,20 +197,36 @@
     .petal:nth-child(6){ transform: rotate(300deg); }
     .petal:nth-child(7){ transform: rotate(0deg); }
 
+    /* Kumulatives Öffnen: jedes Blütenblatt fällt heraus und bleibt weg. */
     .progress-1 .petal:nth-child(7),
-    .progress-2 .petal:nth-child(2),
-    .progress-3 .petal:nth-child(3),
-    .progress-4 .petal:nth-child(4),
-    .progress-5 .petal:nth-child(5),
+    .progress-2 .petal:nth-child(7), .progress-2 .petal:nth-child(2),
+    .progress-3 .petal:nth-child(7), .progress-3 .petal:nth-child(2), .progress-3 .petal:nth-child(3),
+    .progress-4 .petal:nth-child(7), .progress-4 .petal:nth-child(2), .progress-4 .petal:nth-child(3), .progress-4 .petal:nth-child(4),
+    .progress-5 .petal:nth-child(7), .progress-5 .petal:nth-child(2), .progress-5 .petal:nth-child(3), .progress-5 .petal:nth-child(4), .progress-5 .petal:nth-child(5),
     .progress-6 .petal {
-      opacity: .08;
+      opacity: 0;
+      pointer-events: none;
     }
-    .progress-1 .petal:nth-child(7){ transform: rotate(0deg) translateY(-38%) scale(.92); }
-    .progress-2 .petal:nth-child(2){ transform: rotate(60deg) translateY(-38%) scale(.92); }
-    .progress-3 .petal:nth-child(3){ transform: rotate(120deg) translateY(-38%) scale(.92); }
-    .progress-4 .petal:nth-child(4){ transform: rotate(180deg) translateY(-38%) scale(.92); }
-    .progress-5 .petal:nth-child(5){ transform: rotate(240deg) translateY(-38%) scale(.92); }
-    .progress-6 .petal:nth-child(6){ transform: rotate(300deg) translateY(-38%) scale(.92); }
+
+    .progress-1 .petal:nth-child(7),
+    .progress-2 .petal:nth-child(7), .progress-3 .petal:nth-child(7), .progress-4 .petal:nth-child(7), .progress-5 .petal:nth-child(7), .progress-6 .petal:nth-child(7) {
+      transform: rotate(0deg) translateY(74%) scale(.72);
+    }
+    .progress-2 .petal:nth-child(2), .progress-3 .petal:nth-child(2), .progress-4 .petal:nth-child(2), .progress-5 .petal:nth-child(2), .progress-6 .petal:nth-child(2) {
+      transform: rotate(60deg) translateY(74%) scale(.72);
+    }
+    .progress-3 .petal:nth-child(3), .progress-4 .petal:nth-child(3), .progress-5 .petal:nth-child(3), .progress-6 .petal:nth-child(3) {
+      transform: rotate(120deg) translateY(74%) scale(.72);
+    }
+    .progress-4 .petal:nth-child(4), .progress-5 .petal:nth-child(4), .progress-6 .petal:nth-child(4) {
+      transform: rotate(180deg) translateY(74%) scale(.72);
+    }
+    .progress-5 .petal:nth-child(5), .progress-6 .petal:nth-child(5) {
+      transform: rotate(240deg) translateY(74%) scale(.72);
+    }
+    .progress-6 .petal:nth-child(6) {
+      transform: rotate(300deg) translateY(74%) scale(.72);
+    }
 
     .center-flower {
       position: absolute;
