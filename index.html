@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Muttertags-Quiz von Lio und Avan</title>
+  <meta name="description" content="Ein liebevolles Muttertags-Quiz von Lio und Avan." />
+  <style>
+    :root {
+      --yellow: #ffd84d;
+      --yellow-soft: #fff4b8;
+      --green: #7fb069;
+      --green-soft: #dff2d2;
+      --cream: #fffdf4;
+      --white: #ffffff;
+      --pink: #ff7aa8;
+      --rose: #ffbfd3;
+      --text: #3c3728;
+      --shadow: 0 20px 50px rgba(91, 67, 12, .18);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      font-family: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255, 216, 77, .55) 0 80px, transparent 82px),
+        radial-gradient(circle at 88% 18%, rgba(255, 191, 211, .55) 0 70px, transparent 72px),
+        radial-gradient(circle at 50% 100%, rgba(127, 176, 105, .25) 0 240px, transparent 245px),
+        linear-gradient(180deg, #fff9cf 0%, #fffdf4 45%, #e9f8df 100%);
+      overflow-x: hidden;
+    }
+
+    .app {
+      width: min(100%, 520px);
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: max(18px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom));
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .floaters { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+    .floater {
+      position: absolute;
+      font-size: 24px;
+      opacity: .55;
+      animation: drift 9s ease-in-out infinite;
+    }
+    .floater:nth-child(1){ left: 8%; top: 12%; animation-delay: 0s; }
+    .floater:nth-child(2){ right: 8%; top: 20%; animation-delay: -2s; }
+    .floater:nth-child(3){ left: 12%; bottom: 18%; animation-delay: -4s; }
+    .floater:nth-child(4){ right: 14%; bottom: 14%; animation-delay: -6s; }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-18px) rotate(7deg); }
+    }
+
+    .card {
+      width: 100%;
+      background: rgba(255, 255, 255, .86);
+      border: 2px solid rgba(255, 255, 255, .9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      backdrop-filter: blur(10px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(255, 216, 77, .24), transparent 38%),
+                  radial-gradient(circle at bottom right, rgba(127, 176, 105, .18), transparent 42%);
+      pointer-events: none;
+    }
+
+    .content { position: relative; z-index: 2; }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 8vw, 3rem);
+      line-height: 1.02;
+      letter-spacing: -.04em;
+    }
+
+    p { font-size: 1.08rem; line-height: 1.45; margin: 10px 0; }
+
+    .subtle { color: #665d43; }
+
+    .button, .answer {
+      width: 100%;
+      border: 0;
+      border-radius: 999px;
+      min-height: 56px;
+      padding: 15px 18px;
+      font-size: 1.08rem;
+      font-weight: 800;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+      font-family: inherit;
+    }
+
+    .button {
+      margin-top: 18px;
+      color: #3d2f00;
+      background: linear-gradient(180deg, #ffe46f, #ffc928);
+      box-shadow: 0 10px 22px rgba(244, 177, 0, .28);
+    }
+
+    .button:active, .answer:active { transform: scale(.97); }
+
+    .answer-list { display: grid; gap: 12px; margin-top: 18px; }
+
+    .answer {
+      color: #314028;
+      background: var(--green-soft);
+      box-shadow: 0 8px 18px rgba(82, 126, 61, .12);
+      border: 2px solid rgba(127, 176, 105, .25);
+    }
+
+    .answer:hover, .answer:focus-visible { background: #cff0bd; outline: none; }
+    .answer.correct { background: #b8ef9b; animation: pop .42s ease; }
+    .answer.wrong { background: #ffe1e9; animation: shake .35s ease; }
+
+    .photo-wrap {
+      width: min(86vw, 330px);
+      aspect-ratio: 1 / 1;
+      margin: 8px auto 18px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 8px rgba(255,255,255,.85), 0 16px 34px rgba(93, 72, 20, .2);
+      background:
+        linear-gradient(rgba(255, 246, 190, .08), rgba(255, 246, 190, .08)),
+        url("sohn1.jpg") center/cover no-repeat,
+        radial-gradient(circle at 38% 34%, #ffe4a1 0 14%, transparent 15%),
+        radial-gradient(circle at 63% 34%, #ffe4a1 0 14%, transparent 15%),
+        radial-gradient(circle at 36% 31%, #463423 0 2%, transparent 2.5%),
+        radial-gradient(circle at 61% 31%, #463423 0 2%, transparent 2.5%),
+        radial-gradient(circle at 50% 46%, #ff9fb3 0 9%, transparent 9.5%),
+        linear-gradient(135deg, #9fd8ff, #b7efb3 52%, #ffe88a);
+      clip-path: circle(var(--reveal, 7%) at 50% 50%);
+      transition: clip-path .65s cubic-bezier(.22,1,.36,1), transform .45s ease;
+    }
+
+    .photo::after {
+      content: "Bild hier ersetzen: sohn1.jpg";
+      position: absolute;
+      left: 50%; bottom: 22px;
+      transform: translateX(-50%);
+      width: 78%;
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: rgba(60,55,40,.72);
+      background: rgba(255,255,255,.78);
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .finished .photo::after, .photo.real-photo::after { display: none; }
+
+    .petal {
+      position: absolute;
+      width: 38%; height: 46%;
+      left: 31%; top: 27%;
+      border-radius: 55% 55% 45% 45%;
+      background: linear-gradient(180deg, #fff5a5, #ff8fb4);
+      transform-origin: 50% 98%;
+      box-shadow: 0 8px 18px rgba(180, 77, 110, .13);
+      transition: transform .65s cubic-bezier(.22,1,.36,1), opacity .45s ease;
+      z-index: 3;
+    }
+
+    .petal:nth-child(2){ transform: rotate(60deg) translateY(-31%); }
+    .petal:nth-child(3){ transform: rotate(120deg) translateY(-31%); }
+    .petal:nth-child(4){ transform: rotate(180deg) translateY(-31%); }
+    .petal:nth-child(5){ transform: rotate(240deg) translateY(-31%); }
+    .petal:nth-child(6){ transform: rotate(300deg) translateY(-31%); }
+    .petal:nth-child(7){ transform: rotate(0deg) translateY(-31%); }
+
+    .progress-1 .petal:nth-child(7),
+    .progress-2 .petal:nth-child(2),
+    .progress-3 .petal:nth-child(3),
+    .progress-4 .petal:nth-child(4),
+    .progress-5 .petal:nth-child(5),
+    .progress-6 .petal {
+      opacity: .08;
+    }
+    .progress-1 .petal:nth-child(7){ transform: rotate(0deg) translateY(-68%) scale(.92); }
+    .progress-2 .petal:nth-child(2){ transform: rotate(60deg) translateY(-68%) scale(.92); }
+    .progress-3 .petal:nth-child(3){ transform: rotate(120deg) translateY(-68%) scale(.92); }
+    .progress-4 .petal:nth-child(4){ transform: rotate(180deg) translateY(-68%) scale(.92); }
+    .progress-5 .petal:nth-child(5){ transform: rotate(240deg) translateY(-68%) scale(.92); }
+    .progress-6 .petal:nth-child(6){ transform: rotate(300deg) translateY(-68%) scale(.92); }
+
+    .center-flower {
+      position: absolute;
+      width: 30%; height: 30%;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffe978 0 42%, #f7bb28 43% 100%);
+      z-index: 4;
+      box-shadow: 0 5px 12px rgba(158, 116, 17, .2);
+      display: grid;
+      place-items: center;
+      font-size: 2rem;
+      transition: opacity .35s ease, transform .5s ease;
+    }
+
+    .progress-6 .center-flower { opacity: 0; transform: scale(.3); }
+
+    .progress-row { display: flex; justify-content: center; gap: 7px; margin: 6px 0 14px; }
+    .dot { width: 12px; height: 12px; border-radius: 999px; background: #e7dbaa; box-shadow: inset 0 0 0 2px rgba(255,255,255,.8); }
+    .dot.on { background: var(--green); }
+
+    .screen { display: none; animation: fadeIn .28s ease both; }
+    .screen.active { display: block; }
+
+    .message {
+      min-height: 28px;
+      margin-top: 10px;
+      font-weight: 800;
+      color: #6f5830;
+    }
+
+    .question-count { font-weight: 900; color: var(--green); margin-bottom: 8px; }
+    .question { font-size: 1.34rem; font-weight: 900; line-height: 1.22; margin: 6px 0 0; }
+
+    .final-title { color: #d34273; }
+    .heart { display: inline-block; animation: pulse 1.2s ease-in-out infinite; }
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      width: 10px;
+      height: 18px;
+      border-radius: 4px;
+      pointer-events: none;
+      animation: fall 1.35s linear forwards;
+      z-index: 99;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pop { 0% { transform: scale(1); } 55% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    @keyframes shake { 0%,100%{ transform: translateX(0); } 25%{ transform: translateX(-5px); } 75%{ transform: translateX(5px); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.16); } }
+    @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="floaters" aria-hidden="true">
+    <span class="floater">🌼</span><span class="floater">💛</span><span class="floater">🌸</span><span class="floater">💚</span>
+  </div>
+
+  <main class="app">
+    <section class="card" id="card">
+      <div class="content">
+        <div class="photo-wrap" id="flower" aria-label="Überraschungsbild, das sich nach und nach öffnet">
+          <div class="photo" id="photo"></div>
+          <span class="petal"></span><span class="petal"></span><span class="petal"></span>
+          <span class="petal"></span><span class="petal"></span><span class="petal"></span>
+          <div class="center-flower">🌼</div>
+        </div>
+
+        <div class="progress-row" id="progress" aria-label="Fortschritt"></div>
+
+        <div class="screen active" id="startScreen">
+          <h1>Muttertags-Quiz von Lio und Avan</h1>
+          <p class="subtle">Beantworte 6 Fragen und öffne die Blüte der Überraschung.</p>
+          <button class="button" id="startBtn">Spiel starten</button>
+        </div>
+
+        <div class="screen" id="quizScreen">
+          <div class="question-count" id="questionCount"></div>
+          <div class="question" id="questionText"></div>
+          <div class="answer-list" id="answers"></div>
+          <div class="message" id="message" aria-live="polite"></div>
+        </div>
+
+        <div class="screen" id="finalScreen">
+          <h1 class="final-title">Alles Liebe zum Muttertag <span class="heart">❤️</span></h1>
+          <p><strong>Danke Mama, dass du immer für uns da bist. Wir lieben dich!</strong></p>
+          <p class="subtle">Von Lio und Avan 💐</p>
+          <button class="button" id="restartBtn">Nochmals spielen</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Fragen leicht editierbar: richtige Antwort steht in "correct".
+    const quizQuestions = [
+      {
+        question: "Was ist das Lieblingsessen von Lio und Avan?",
+        answers: ["Pizza und Salat", "Kebapp und Guetzli", "Broccoli und Suppe"],
+        correct: "Kebapp und Guetzli"
+      },
+      {
+        question: "Was schenken wir Mama am Muttertag?",
+        answers: ["Viel Liebe", "Einen Traktor", "Eine Rakete"],
+        correct: "Viel Liebe"
+      },
+      {
+        question: "Welches Spiel machen alle gerne?",
+        answers: ["Verstecken", "Schach im Regen", "Socken sortieren"],
+        correct: "Verstecken"
+      },
+      {
+        question: "Was ist schöner als jedes Geschenk?",
+        answers: ["Lio", "Ein Stein", "Ein leerer Teller"],
+        correct: "Lio"
+      },
+      {
+        question: "Was ist die Lieblingsfarbe von Lio?",
+        answers: ["Rot", "Blau", "Schwarz"],
+        correct: "Blau"
+      },
+      {
+        question: "Was ist die Lieblingsfarbe von Avan?",
+        answers: ["Grün", "Orange", "Violett"],
+        correct: "Grün"
+      }
+    ];
+
+    const totalSteps = quizQuestions.length;
+    let currentQuestion = 0;
+    let correctAnswers = 0;
+    let locked = false;
+
+    const startScreen = document.getElementById("startScreen");
+    const quizScreen = document.getElementById("quizScreen");
+    const finalScreen = document.getElementById("finalScreen");
+    const startBtn = document.getElementById("startBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const questionCount = document.getElementById("questionCount");
+    const questionText = document.getElementById("questionText");
+    const answers = document.getElementById("answers");
+    const message = document.getElementById("message");
+    const flower = document.getElementById("flower");
+    const photo = document.getElementById("photo");
+    const progress = document.getElementById("progress");
+
+    function normalize(text) {
+      return String(text).trim().toLowerCase();
+    }
+
+    function showScreen(screen) {
+      [startScreen, quizScreen, finalScreen].forEach(s => s.classList.remove("active"));
+      screen.classList.add("active");
+    }
+
+    function renderProgress() {
+      progress.innerHTML = "";
+      for (let i = 0; i < totalSteps; i++) {
+        const dot = document.createElement("span");
+        dot.className = "dot" + (i < correctAnswers ? " on" : "");
+        progress.appendChild(dot);
+      }
+
+      flower.className = "photo-wrap progress-" + correctAnswers + (correctAnswers >= totalSteps ? " finished" : "");
+      const revealPercent = [7, 20, 34, 49, 66, 83, 140][correctAnswers] || 7;
+      photo.style.setProperty("--reveal", revealPercent + "%");
+    }
+
+    function renderQuestion() {
+      const item = quizQuestions[currentQuestion];
+      questionCount.textContent = `Frage ${currentQuestion + 1} von ${totalSteps}`;
+      questionText.textContent = item.question;
+      message.textContent = "";
+      answers.innerHTML = "";
+
+      item.answers.forEach(answer => {
+        const button = document.createElement("button");
+        button.className = "answer";
+        button.type = "button";
+        button.textContent = answer;
+        button.addEventListener("click", () => chooseAnswer(button, answer));
+        answers.appendChild(button);
+      });
+    }
+
+    function chooseAnswer(button, answer) {
+      if (locked) return;
+      const item = quizQuestions[currentQuestion];
+
+      if (normalize(answer) !== normalize(item.correct)) {
+        button.classList.add("wrong");
+        message.textContent = "Fast! Versuch es nochmals.";
+        setTimeout(() => button.classList.remove("wrong"), 450);
+        return;
+      }
+
+      locked = true;
+      button.classList.add("correct");
+      message.textContent = "Richtig! Die Blüte öffnet sich weiter 🌸";
+      correctAnswers++;
+      renderProgress();
+      celebrateSmall();
+
+      setTimeout(() => {
+        currentQuestion++;
+        locked = false;
+        if (correctAnswers >= totalSteps) {
+          showFinal();
+        } else {
+          renderQuestion();
+        }
+      }, 900);
+    }
+
+    function celebrateSmall() {
+      const colors = ["#ffd84d", "#7fb069", "#ff7aa8", "#ffffff"];
+      for (let i = 0; i < 16; i++) {
+        const piece = document.createElement("span");
+        piece.className = "confetti";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[i % colors.length];
+        piece.style.animationDelay = Math.random() * .25 + "s";
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 1700);
+      }
+    }
+
+    function startGame() {
+      currentQuestion = 0;
+      correctAnswers = 0;
+      locked = false;
+      renderProgress();
+      renderQuestion();
+      showScreen(quizScreen);
+    }
+
+    function showFinal() {
+      renderProgress();
+      celebrateSmall();
+      showScreen(finalScreen);
+    }
+
+    const realPhotoCheck = new Image();
+    realPhotoCheck.onload = () => photo.classList.add("real-photo");
+    realPhotoCheck.src = "sohn1.jpg";
+
+    startBtn.addEventListener("click", startGame);
+    restartBtn.addEventListener("click", startGame);
+    renderProgress();
+  </script>
+</body>
+</html>
