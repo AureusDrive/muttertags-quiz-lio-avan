@@ -134,9 +134,9 @@
     .answer.wrong { background: #ffe1e9; animation: shake .35s ease; }
 
     .photo-wrap {
-      width: min(86vw, 330px);
+      width: min(58vw, 230px);
       aspect-ratio: 1 / 1;
-      margin: 8px auto 18px;
+      margin: 2px auto 18px;
       position: relative;
       display: grid;
       place-items: center;
@@ -180,22 +180,22 @@
 
     .petal {
       position: absolute;
-      width: 38%; height: 46%;
-      left: 31%; top: 27%;
+      width: 32%; height: 40%;
+      left: 34%; top: 8%;
       border-radius: 55% 55% 45% 45%;
       background: linear-gradient(180deg, #fff5a5, #ff8fb4);
-      transform-origin: 50% 98%;
+      transform-origin: 50% 105%;
       box-shadow: 0 8px 18px rgba(180, 77, 110, .13);
       transition: transform .65s cubic-bezier(.22,1,.36,1), opacity .45s ease;
       z-index: 3;
     }
 
-    .petal:nth-child(2){ transform: rotate(60deg) translateY(-31%); }
-    .petal:nth-child(3){ transform: rotate(120deg) translateY(-31%); }
-    .petal:nth-child(4){ transform: rotate(180deg) translateY(-31%); }
-    .petal:nth-child(5){ transform: rotate(240deg) translateY(-31%); }
-    .petal:nth-child(6){ transform: rotate(300deg) translateY(-31%); }
-    .petal:nth-child(7){ transform: rotate(0deg) translateY(-31%); }
+    .petal:nth-child(2){ transform: rotate(60deg); }
+    .petal:nth-child(3){ transform: rotate(120deg); }
+    .petal:nth-child(4){ transform: rotate(180deg); }
+    .petal:nth-child(5){ transform: rotate(240deg); }
+    .petal:nth-child(6){ transform: rotate(300deg); }
+    .petal:nth-child(7){ transform: rotate(0deg); }
 
     .progress-1 .petal:nth-child(7),
     .progress-2 .petal:nth-child(2),
@@ -205,16 +205,16 @@
     .progress-6 .petal {
       opacity: .08;
     }
-    .progress-1 .petal:nth-child(7){ transform: rotate(0deg) translateY(-68%) scale(.92); }
-    .progress-2 .petal:nth-child(2){ transform: rotate(60deg) translateY(-68%) scale(.92); }
-    .progress-3 .petal:nth-child(3){ transform: rotate(120deg) translateY(-68%) scale(.92); }
-    .progress-4 .petal:nth-child(4){ transform: rotate(180deg) translateY(-68%) scale(.92); }
-    .progress-5 .petal:nth-child(5){ transform: rotate(240deg) translateY(-68%) scale(.92); }
-    .progress-6 .petal:nth-child(6){ transform: rotate(300deg) translateY(-68%) scale(.92); }
+    .progress-1 .petal:nth-child(7){ transform: rotate(0deg) translateY(-38%) scale(.92); }
+    .progress-2 .petal:nth-child(2){ transform: rotate(60deg) translateY(-38%) scale(.92); }
+    .progress-3 .petal:nth-child(3){ transform: rotate(120deg) translateY(-38%) scale(.92); }
+    .progress-4 .petal:nth-child(4){ transform: rotate(180deg) translateY(-38%) scale(.92); }
+    .progress-5 .petal:nth-child(5){ transform: rotate(240deg) translateY(-38%) scale(.92); }
+    .progress-6 .petal:nth-child(6){ transform: rotate(300deg) translateY(-38%) scale(.92); }
 
     .center-flower {
       position: absolute;
-      width: 30%; height: 30%;
+      width: 24%; height: 24%;
       border-radius: 50%;
       background: radial-gradient(circle, #ffe978 0 42%, #f7bb28 43% 100%);
       z-index: 4;
@@ -242,7 +242,11 @@
     }
 
     .question-count { font-weight: 900; color: var(--green); margin-bottom: 8px; }
-    .question { font-size: 1.34rem; font-weight: 900; line-height: 1.22; margin: 6px 0 0; }
+    .question { font-size: 1.3rem; font-weight: 900; line-height: 1.24; margin: 10px 0 0; }
+
+    @media (min-width: 420px) {
+      .photo-wrap { width: min(52vw, 240px); }
+    }
 
     .final-title { color: #d34273; }
     .heart { display: inline-block; animation: pulse 1.2s ease-in-out infinite; }
