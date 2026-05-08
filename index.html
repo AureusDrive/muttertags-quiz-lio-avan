@@ -319,7 +319,7 @@
 
   <script>
     // Fragen leicht editierbar: richtige Antwort steht in "correct".
-    const gameVersion = "2026-05-08-1835";
+    const gameVersion = "2026-05-08-1838";
     const quizQuestions = [
       {
         question: "Was ist das Lieblingsessen von Lio und Avan?",
@@ -436,13 +436,21 @@
       message.textContent = "Richtig! Die Blüte öffnet sich weiter 🌸";
       correctAnswers++;
       renderProgress();
-      playCheer();
+
+      const isFinalAnswer = correctAnswers >= totalSteps;
+      // Wichtig für iPhone/WhatsApp: Sound muss direkt im Touch/Klick-Event starten.
+      // Ein späteres setTimeout wird oft blockiert.
+      if (isFinalAnswer) {
+        playFinalSound();
+      } else {
+        playCheer();
+      }
       celebrateSmall();
 
       setTimeout(() => {
         currentQuestion++;
         locked = false;
-        if (correctAnswers >= totalSteps) {
+        if (isFinalAnswer) {
           showFinal();
         } else {
           renderQuestion();
@@ -492,7 +500,6 @@
 
     function showFinal() {
       renderProgress();
-      playFinalSound();
       celebrateSmall();
       showScreen(finalScreen);
     }
