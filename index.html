@@ -308,9 +308,14 @@
     </section>
   </main>
 
+  <audio id="cheerSound" preload="auto">
+    <source src="jubel.mp3" type="audio/mpeg" />
+    <source src="jubel.ogg" type="audio/ogg" />
+  </audio>
+
   <script>
     // Fragen leicht editierbar: richtige Antwort steht in "correct".
-    const gameVersion = "2026-05-08-1824";
+    const gameVersion = "2026-05-08-1829";
     const quizQuestions = [
       {
         question: "Was ist das Lieblingsessen von Lio und Avan?",
@@ -361,6 +366,7 @@
     const flower = document.getElementById("flower");
     const photo = document.getElementById("photo");
     const progress = document.getElementById("progress");
+    const cheerSound = document.getElementById("cheerSound");
     const petals = Array.from(document.querySelectorAll(".petal"));
     // Reihenfolge: oberes Blatt zuerst, dann im Uhrzeigersinn. Bereits gefallene Blätter bleiben weg.
     const petalOpenOrder = [5, 0, 1, 2, 3, 4];
@@ -425,6 +431,7 @@
       message.textContent = "Richtig! Die Blüte öffnet sich weiter 🌸";
       correctAnswers++;
       renderProgress();
+      playCheer();
       celebrateSmall();
 
       setTimeout(() => {
@@ -436,6 +443,16 @@
           renderQuestion();
         }
       }, 900);
+    }
+
+    function playCheer() {
+      if (!cheerSound) return;
+      try {
+        cheerSound.currentTime = 0;
+        cheerSound.play().catch(() => {
+          // Mobile Browser erlauben Audio erst nach Touch; der Klick auf Antwort zählt meistens.
+        });
+      } catch (error) {}
     }
 
     function celebrateSmall() {
